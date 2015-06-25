@@ -242,7 +242,7 @@ class TestSyncableLogins: XCTestCase {
 
     func testApplyLogin() {
         let guidA = "abcdabcdabcd"
-        var loginA1 = Login(guid: guidA, hostname: "http://example.com", username: "username", password: "password")
+        var loginA1 = ServerLogin(guid: guidA, hostname: "http://example.com", username: "username", password: "password", modified: 1234)
         loginA1.formSubmitURL = "http://example.com/form/"
         loginA1.timesUsed = 3
 

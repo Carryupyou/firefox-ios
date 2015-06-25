@@ -57,15 +57,14 @@ public class LoginsSynchronizer: IndependentRecordSynchronizer, Synchronizer {
         return self.applyIncomingToStorage(records, fetched: fetched) { rec in
             let guid = rec.id
             let payload = rec.payload
-            let modified = rec.modified
 
             // We apply deletions immediately. That might not be exactly what we want -- perhaps you changed
             // a password locally after deleting it remotely -- but it's expedient.
             if payload.deleted {
-                return storage.deleteByGUID(guid, deletedAt: modified)
+                return storage.deleteByGUID(guid, deletedAt: rec.modified)
             }
 
-            return storage.applyChangedLogin(self.getLogin(rec), timestamp: modified)
+            return storage.applyChangedLogin(self.getLogin(rec))
         }
     }
 

@@ -467,7 +467,7 @@ public protocol SyncableLogins {
      */
     func deleteByGUID(guid: GUID, deletedAt: Timestamp) -> Success
 
-    func applyChangedLogin(upstream: ServerLogin, timestamp: Timestamp) -> Success
+    func applyChangedLogin(upstream: ServerLogin) -> Success
 
     /**
      * TODO: these might need some work.
