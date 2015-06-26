@@ -24,7 +24,7 @@ public enum NonCommutativeLoginField: Indexable {
     case HTTPRealm(to: String?)
     case FormSubmitURL(to: String?)
     case TimeCreated(to: MicrosecondTimestamp)                  // Should be immutable.
-    case TimeLastUsed(to: MicrosecondTimestamp)
+    case TimeLastUsed(to: MicrosecondTimestamp)      // TODO: reconcile by taking the largest.
     case TimePasswordChanged(to: MicrosecondTimestamp)
 
     public var index: Int {
@@ -247,7 +247,7 @@ public class Login: Printable, LoginData, LoginUsageData, Equatable {
         return realm
     }
 
-    public func deltas(from: Login) -> LoginDeltas {
+    public func deltas(#from: Login) -> LoginDeltas {
         let commutative: [CommutativeLoginField]
 
         if self.timesUsed == from.timesUsed {
@@ -307,10 +307,12 @@ public class Login: Printable, LoginData, LoginUsageData, Equatable {
         for (let f) in b {
             let index = f.index
             if deltas[index] != nil {
-                log.warning("Collision in \(T.self) \(f). Using latest.")
+                log.warning("Collision in \(T.self) \(f.index). Using latest.")
                 if bLatest {
                     deltas[index] = f
                 }
+            } else {
+                deltas[index] = f
             }
         }
 

@@ -745,8 +745,8 @@ extension SQLiteLogins: SyncableLogins {
         // Then we can merge the two delta sets -- either perfectly or by picking a winner in the case
         // of a true conflict -- and produce a resultant record.
 
-        let localDeltas = (local.localModified, local.deltas(shared))
-        let upstreamDeltas = (upstream.serverModified, upstream.deltas(shared))
+        let localDeltas = (local.localModified, local.deltas(from: shared))
+        let upstreamDeltas = (upstream.serverModified, upstream.deltas(from: shared))
 
         let mergedDeltas = Login.mergeDeltas(a: localDeltas, b: upstreamDeltas)
 
